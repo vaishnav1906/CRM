@@ -29,7 +29,7 @@ It is built as a **Twenty Apps SDK plugin** (`packages/twenty-apps/internal/idda
 
 ### Lead Management
 - Central **Lead** object combining Doctor + Clinic information
-- Full pipeline from `New Lead` → `Research Completed` → `Contacted` → `Follow-Up Pending` → `Interested` → `Meeting Scheduled` → `Onboarded` / `Rejected`
+- Full pipeline: `New Lead` → `Research Completed` → `Contacted` → `Follow-Up Pending` → `Interested` → `Meeting Scheduled` → `Onboarded` / `Rejected`
 - Priority levels: Low, Medium, High, Urgent
 - Lead source tracking: Cold Call, Referral, Instagram, and more
 - Specialization segmentation: Dentist, Dermatologist, etc.
@@ -119,35 +119,199 @@ packages/
 
 ---
 
-## Getting Started
+## Complete Setup Guide
 
-### Prerequisites
-- Node.js 18+, Yarn 4
-- PostgreSQL and Redis running locally (or via Docker)
+Follow these steps **in order**. Every command is copy-pasteable — no guesswork needed.
 
-### Setup
+---
+
+### Step 1 — Install Prerequisites
+
+You need **Node.js 24**, **Yarn 4**, and **Docker Desktop** on your machine.
+
+**Install Node.js 24** (using nvm — recommended):
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+```
+```bash
+source ~/.bashrc   # or source ~/.zshrc on Mac
+```
+```bash
+nvm install 24 && nvm use 24
+```
+
+**Enable Yarn 4:**
+```bash
+corepack enable && corepack prepare yarn@stable --activate
+```
+
+**Verify everything is installed:**
+```bash
+node --version    # should show v24.x.x
+yarn --version    # should show 4.x.x
+docker --version  # should show Docker version x.x.x
+```
+
+Install Docker Desktop if `docker --version` fails: [https://www.docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop)
+
+Then open Docker Desktop and make sure it is **running** before continuing.
+
+---
+
+### Step 2 — Clone the Repository
 
 ```bash
-# 1. Start infrastructure
-bash packages/twenty-utils/setup-dev-env.sh
+git clone https://github.com/vaishnav1906/CRM.git
+```
+```bash
+cd CRM
+```
 
-# 2. Start the full dev environment
-yarn start
+---
 
-# 3. Deploy the IDDA plugin into your workspace
-cd packages/twenty-apps/internal/idda-crm
-cp .env.example .env.local
-# Fill TWENTY_API_KEY from Settings → APIs & Webhooks in the Twenty UI
+### Step 3 — Install Dependencies
+
+```bash
 yarn install
+```
+
+This will take a few minutes the first time.
+
+---
+
+### Step 4 — Start PostgreSQL and Redis via Docker
+
+Make sure Docker Desktop is open and running, then:
+
+```bash
+docker compose -f packages/twenty-docker/docker-compose.dev.yml up -d
+```
+
+This starts:
+- **PostgreSQL 16** on port `5432`
+- **Redis 7** on port `6379`
+
+Verify both are healthy:
+```bash
+docker compose -f packages/twenty-docker/docker-compose.dev.yml ps
+```
+
+Both services should show `healthy` under the Status column. Wait a few seconds and re-run if they show `starting`.
+
+---
+
+### Step 5 — Set Up Environment Files
+
+```bash
+bash packages/twenty-utils/setup-dev-env.sh --docker
+```
+
+This copies `.env.example → .env` for both the frontend and backend. Safe to re-run any time.
+
+---
+
+### Step 6 — Initialize the Database
+
+```bash
+npx nx run twenty-server:database:init:prod
+```
+
+This runs all migrations and seeds the initial workspace data.
+
+---
+
+### Step 7 — Start the Application
+
+```bash
+yarn start
+```
+
+This starts all three services:
+- **Frontend** → [http://localhost:3001](http://localhost:3001)
+- **Backend API** → [http://localhost:3000](http://localhost:3000)
+- **Background worker** → handles jobs, automations, and cron tasks
+
+Wait until all three services print their ready messages, then open [http://localhost:3001](http://localhost:3001) in your browser.
+
+---
+
+### Step 8 — Log In
+
+1. Open [http://localhost:3001](http://localhost:3001)
+2. Click **"Continue with Email"**
+3. The email and password fields are pre-filled — just click **Sign In**
+
+---
+
+### Step 9 — Get Your API Key
+
+1. In the top-left, click your workspace name → **Settings**
+2. Go to **APIs & Webhooks**
+3. Click **Generate API Key**, give it a name (e.g. `idda-plugin`), and copy the key
+
+---
+
+### Step 10 — Deploy the IDDA CRM Plugin
+
+Open a **new terminal tab** (keep `yarn start` running in the first one), then:
+
+```bash
+cd packages/twenty-apps/internal/idda-crm
+```
+```bash
+cp .env.example .env.local
+```
+
+Open `.env.local` in any text editor and paste your API key on the last line:
+```
+TWENTY_API_URL=http://localhost:2020
+TWENTY_API_KEY=your_api_key_here
+```
+
+Then install and deploy:
+```bash
+yarn install
+```
+```bash
 yarn twenty sync
 ```
 
-### Running Tests
+---
 
+### Done!
+
+Refresh [http://localhost:3001](http://localhost:3001) in your browser.
+
+You will now see the full IDDA CRM with:
+- **Leads** pipeline and all-leads table
+- **Task management** panel
+- **Team views** filtered by assignee and priority
+- **Lead scoring** and segment views
+- **Follow-up reminders** running on schedule
+
+---
+
+## Stopping and Restarting
+
+**Stop the app** — press `Ctrl+C` in the terminal running `yarn start`
+
+**Stop Docker services:**
 ```bash
-npx nx test twenty-front
-npx nx test twenty-server
-npx nx run twenty-server:test:integration:with-db-reset
+docker compose -f packages/twenty-docker/docker-compose.dev.yml down
+```
+
+**Start again next time** (Steps 4 and 7 only):
+```bash
+docker compose -f packages/twenty-docker/docker-compose.dev.yml up -d
+yarn start
+```
+
+**Wipe everything and start completely fresh:**
+```bash
+docker compose -f packages/twenty-docker/docker-compose.dev.yml down -v
+bash packages/twenty-utils/setup-dev-env.sh --docker
+npx nx run twenty-server:database:init:prod
+yarn start
 ```
 
 ---
