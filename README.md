@@ -291,6 +291,109 @@ You will now see the full IDDA CRM with:
 
 ---
 
+## Exposing the CRM Over the Internet with ngrok
+
+By default the CRM only runs on `localhost`. If you want to access it from another device, share it with a teammate, or receive webhooks from external services, use **ngrok** to create a public HTTPS tunnel.
+
+---
+
+### Step 1 — Install ngrok
+
+**Mac:**
+```bash
+brew install ngrok/ngrok/ngrok
+```
+
+**Windows / Linux:** Download the binary from [https://ngrok.com/download](https://ngrok.com/download) and add it to your PATH.
+
+---
+
+### Step 2 — Create a free ngrok account and add your auth token
+
+1. Sign up at [https://dashboard.ngrok.com/signup](https://dashboard.ngrok.com/signup)
+2. After logging in, go to **Your Authtoken** in the dashboard and copy it
+3. Run:
+
+```bash
+ngrok config add-authtoken YOUR_AUTHTOKEN_HERE
+```
+
+---
+
+### Step 3 — Start tunnels for both frontend and backend
+
+ngrok needs to tunnel two ports: **3001** (frontend) and **3000** (backend). The easiest way is to use an ngrok config file.
+
+Create the config file:
+```bash
+mkdir -p ~/.config/ngrok
+```
+```bash
+cat > ~/.config/ngrok/ngrok.yml << 'EOF'
+version: "3"
+tunnels:
+  frontend:
+    proto: http
+    addr: 3001
+  backend:
+    proto: http
+    addr: 3000
+EOF
+```
+
+Start both tunnels in one command (open a **new terminal tab** for this):
+```bash
+ngrok start --all
+```
+
+You will see output like this:
+```
+Forwarding  https://abc123.ngrok-free.app -> http://localhost:3001   (frontend)
+Forwarding  https://xyz789.ngrok-free.app -> http://localhost:3000   (backend)
+```
+
+Copy both HTTPS URLs — you'll need them in the next step.
+
+---
+
+### Step 4 — Update the environment files with your ngrok URLs
+
+Open `packages/twenty-server/.env` in a text editor and update these two lines (replace with your actual URLs from the previous step):
+
+```
+FRONTEND_URL=https://abc123.ngrok-free.app
+SERVER_URL=https://xyz789.ngrok-free.app
+```
+
+---
+
+### Step 5 — Allow your ngrok domain in the frontend config
+
+Open `packages/twenty-front/vite.config.ts` and add your ngrok frontend domain to the `allowedHosts` array:
+
+```ts
+allowedHosts: [
+  '*/*',
+  'localhost',
+  '127.0.0.1',
+  'abc123.ngrok-free.app',   // add your frontend ngrok domain here
+],
+```
+
+---
+
+### Step 6 — Restart the app
+
+```bash
+yarn start
+```
+
+The CRM is now accessible at your frontend ngrok URL (e.g. `https://abc123.ngrok-free.app`) from any device or browser.
+
+> **Note:** Free ngrok URLs change every time you restart ngrok. If you restart ngrok, repeat Steps 3–6 with the new URLs. To get a stable permanent URL, upgrade to a paid ngrok plan and reserve a static domain.
+
+---
+
 ## Stopping and Restarting
 
 **Stop the app** — press `Ctrl+C` in the terminal running `yarn start`
