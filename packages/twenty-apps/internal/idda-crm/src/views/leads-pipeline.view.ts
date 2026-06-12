@@ -1,0 +1,50 @@
+import { defineView, ViewType } from 'twenty-sdk/define';
+
+import {
+  LEAD_ASSIGNED_TEAM_FIELD_UUID,
+  LEAD_ASSIGNED_TO_FIELD_UUID,
+  LEAD_CALL_STATUS_FIELD_UUID,
+  LEAD_CLINIC_NAME_FIELD_UUID,
+  LEAD_DOCTOR_NAME_FIELD_UUID,
+  LEAD_INTEREST_LEVEL_FIELD_UUID,
+  LEAD_NEXT_FOLLOW_UP_AT_FIELD_UUID,
+  LEAD_OBJECT_UNIVERSAL_IDENTIFIER,
+  LEAD_PHONES_FIELD_UUID,
+  LEAD_PRIORITY_FIELD_UUID,
+  LEAD_STAGE_FIELD_UUID,
+  LEADS_PIPELINE_BOARD_VIEW_UUID,
+} from 'src/constants/universal-identifiers';
+
+export default defineView({
+  universalIdentifier: LEADS_PIPELINE_BOARD_VIEW_UUID,
+  name: 'Pipeline',
+  objectUniversalIdentifier: LEAD_OBJECT_UNIVERSAL_IDENTIFIER,
+  type: ViewType.KANBAN,
+  icon: 'IconLayoutKanban',
+  position: 1,
+  mainGroupByFieldMetadataUniversalIdentifier: LEAD_STAGE_FIELD_UUID,
+  fields: [
+    { universalIdentifier: '4275f4f0-ee9a-49d4-b17c-96546fcf7b31', fieldMetadataUniversalIdentifier: LEAD_DOCTOR_NAME_FIELD_UUID, position: 0, isVisible: true },
+    { universalIdentifier: '84de4e93-d48c-422e-b5a0-88ff466fb08e', fieldMetadataUniversalIdentifier: LEAD_CLINIC_NAME_FIELD_UUID, position: 1, isVisible: true },
+    { universalIdentifier: 'df6f701c-3c3f-41bd-82ec-cdae33ad982d', fieldMetadataUniversalIdentifier: LEAD_PHONES_FIELD_UUID, position: 2, isVisible: true },
+    { universalIdentifier: 'bb0b0bc4-66db-45e2-8e76-7553ec1c4441', fieldMetadataUniversalIdentifier: LEAD_PRIORITY_FIELD_UUID, position: 3, isVisible: true },
+    { universalIdentifier: 'af2fce79-f3db-4476-b02d-df1c65d46688', fieldMetadataUniversalIdentifier: LEAD_ASSIGNED_TO_FIELD_UUID, position: 4, isVisible: true },
+    { universalIdentifier: 'd12a98d6-c165-4388-8aa0-c475a93511f5', fieldMetadataUniversalIdentifier: LEAD_NEXT_FOLLOW_UP_AT_FIELD_UUID, position: 5, isVisible: true },
+    { universalIdentifier: '1a14bc82-69c6-40ad-8022-bb402dac11a4', fieldMetadataUniversalIdentifier: LEAD_CALL_STATUS_FIELD_UUID, position: 6, isVisible: true },
+    { universalIdentifier: '7666fbdc-fb45-4917-9658-f94294e78024', fieldMetadataUniversalIdentifier: LEAD_INTEREST_LEVEL_FIELD_UUID, position: 7, isVisible: true },
+    { universalIdentifier: '14912f5d-1319-44fa-a81c-1b5c22522dc7', fieldMetadataUniversalIdentifier: LEAD_ASSIGNED_TEAM_FIELD_UUID, position: 8, isVisible: false },
+  ],
+  groups: [
+    { universalIdentifier: '82415092-62ba-4361-8a76-f74f162b31b1', fieldValue: 'NEW_LEAD', position: 0, isVisible: true },
+    { universalIdentifier: '3207e29a-64cb-477e-871f-799df3b12cc6', fieldValue: 'RESEARCH_COMPLETED', position: 1, isVisible: true },
+    { universalIdentifier: 'c3c0c5f3-764c-4c5d-bd94-56019c7aff2c', fieldValue: 'READY_FOR_CALLING', position: 2, isVisible: true },
+    { universalIdentifier: '28b50a91-f2c2-4357-af09-15ce8bba76b4', fieldValue: 'CONTACT_ATTEMPTED', position: 3, isVisible: true },
+    { universalIdentifier: 'bf6abc0d-70c8-46a3-97da-096659dab514', fieldValue: 'FOLLOW_UP_PENDING', position: 4, isVisible: true },
+    { universalIdentifier: '95900651-c077-415e-8ecf-4200720f99a3', fieldValue: 'INTERESTED', position: 5, isVisible: true },
+    { universalIdentifier: '659616b2-47a3-4e32-ad8a-a7372a3167d8', fieldValue: 'MEETING_SCHEDULED', position: 6, isVisible: true },
+    { universalIdentifier: '146c90a6-eb65-48c3-b38c-90d4556bafcd', fieldValue: 'MEETING_COMPLETED', position: 7, isVisible: true },
+    { universalIdentifier: '28a1e94e-38e9-4f3e-a580-d82e82b453af', fieldValue: 'NEGOTIATION', position: 8, isVisible: true },
+    { universalIdentifier: '3e00cbf3-f838-4e7d-ab0b-8eafdb059ed0', fieldValue: 'ONBOARDED', position: 9, isVisible: true },
+    { universalIdentifier: '3ca83bc1-89db-4b1e-b30c-0ba59b65e21b', fieldValue: 'REJECTED', position: 10, isVisible: false },
+  ],
+});
