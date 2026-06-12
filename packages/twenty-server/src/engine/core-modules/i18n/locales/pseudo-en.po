@@ -73,11 +73,6 @@ msgstr ""
 msgid "24HRS"
 msgstr ""
 
-#. js-lingui-id: kZR6+h
-#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
-msgid "A company"
-msgstr ""
-
 #. js-lingui-id: JYntnV
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-connection-provider-validator.service.ts
 msgid "A connection provider with this name already exists for this application"
@@ -108,6 +103,11 @@ msgstr ""
 msgid "A field with this name already exists."
 msgstr ""
 
+#. js-lingui-id: BRNi0r
+#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
+msgid "A follow-up activity"
+msgstr ""
+
 #. js-lingui-id: D0Kuk1
 #: src/engine/metadata-modules/front-component/front-component.exception.ts
 msgid "A front component with this name already exists."
@@ -116,6 +116,11 @@ msgstr ""
 #. js-lingui-id: +aAI33
 #: src/engine/metadata-modules/logic-function/logic-function.exception.ts
 msgid "A function with this name already exists."
+msgstr ""
+
+#. js-lingui-id: 9rAUQ7
+#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
+msgid "A healthcare clinic or hospital"
 msgstr ""
 
 #. js-lingui-id: 6yZjO1
@@ -159,11 +164,6 @@ msgstr ""
 msgid "A payment processing error occurred."
 msgstr ""
 
-#. js-lingui-id: Io42ej
-#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
-msgid "A person"
-msgstr ""
-
 #. js-lingui-id: sieBE7
 #: src/engine/twenty-orm/exceptions/twenty-orm.exception.ts
 msgid "A record with this relationship already exists."
@@ -190,6 +190,11 @@ msgstr ""
 msgid "A role with this label already exists."
 msgstr ""
 
+#. js-lingui-id: kFTYaD
+#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
+msgid "A sales deal"
+msgstr ""
+
 #. js-lingui-id: HijTmf
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/utils/validate-skill-name-uniqueness.util.ts
 msgid "A skill with this name already exists"
@@ -208,11 +213,6 @@ msgstr ""
 #. js-lingui-id: WYnYE1
 #: src/engine/metadata-modules/object-metadata/object-metadata.exception.ts
 msgid "A system field is missing."
-msgstr ""
-
-#. js-lingui-id: mkFXEH
-#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
-msgid "A task"
 msgstr ""
 
 #. js-lingui-id: hk2NzW
@@ -348,6 +348,7 @@ msgstr ""
 #. js-lingui-id: F6pfE9
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-workflow-version-standard-flat-field-metadata.util.ts
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-workflow-standard-flat-field-metadata.util.ts
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-person-standard-flat-field-metadata.util.ts
 msgid "Active"
 msgstr ""
 
@@ -466,6 +467,11 @@ msgstr ""
 msgid "An error occurred."
 msgstr ""
 
+#. js-lingui-id: ETOU7z
+#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
+msgid "An IDDA Assurance team member"
+msgstr ""
+
 #. js-lingui-id: P/8dT5
 #: src/engine/metadata-modules/index-metadata/index-field-metadata.exception.ts
 msgid "An index metadata error occurred."
@@ -489,11 +495,6 @@ msgstr ""
 #. js-lingui-id: CQ5DXU
 #: src/engine/metadata-modules/object-metadata/object-metadata.exception.ts
 msgid "An object with this name already exists."
-msgstr ""
-
-#. js-lingui-id: bZq8rL
-#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
-msgid "An opportunity"
 msgstr ""
 
 #. js-lingui-id: Tstlpf
@@ -959,6 +960,11 @@ msgstr ""
 msgid "Business"
 msgstr ""
 
+#. js-lingui-id: Pbbstu
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-person-standard-flat-field-metadata.util.ts
+msgid "Business Development"
+msgstr ""
+
 #. js-lingui-id: 8mVqF7
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-timeline-activity-standard-flat-field-metadata.util.ts
 msgid "Cached record name"
@@ -1329,6 +1335,16 @@ msgstr ""
 msgid "Client credentials are not configured for this OAuth provider."
 msgstr ""
 
+#. js-lingui-id: +LT4cI
+#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
+msgid "Clinic"
+msgstr ""
+
+#. js-lingui-id: nzPkoK
+#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
+msgid "Clinics"
+msgstr ""
+
 #. js-lingui-id: NRF7pg
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-opportunity-standard-flat-field-metadata.util.ts
 msgid "Close date"
@@ -1362,13 +1378,7 @@ msgstr ""
 msgid "Commas and dot"
 msgstr ""
 
-#. js-lingui-id: s2QZS6
-#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
-msgid "Companies"
-msgstr ""
-
 #. js-lingui-id: 7i8j3G
-#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-person-standard-flat-field-metadata.util.ts
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-opportunity-standard-flat-field-metadata.util.ts
 #: src/engine/metadata-modules/page-layout-widget/constants/standard-page-layout-widget-titles.ts
@@ -1562,6 +1572,11 @@ msgstr ""
 msgid "Contact"
 msgstr ""
 
+#. js-lingui-id: xDRw4L
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-opportunity-standard-flat-field-metadata.util.ts
+msgid "Contacted"
+msgstr ""
+
 #. js-lingui-id: rx63gq
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/utils/validate-skill-required-properties.util.ts
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/utils/validate-skill-required-properties.util.ts
@@ -1742,11 +1757,6 @@ msgstr ""
 msgid "Custom object is missing a label identifier field."
 msgstr ""
 
-#. js-lingui-id: 876pfE
-#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-opportunity-standard-flat-field-metadata.util.ts
-msgid "Customer"
-msgstr ""
-
 #. js-lingui-id: 7p5kLi
 #: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
 msgid "Dashboard"
@@ -1842,13 +1852,24 @@ msgid "Deactivated"
 msgstr ""
 
 #. js-lingui-id: 3jX0AP
+#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
 #: src/engine/metadata-modules/view-field-group/constants/standard-view-field-group-names.ts
 msgid "Deal"
+msgstr ""
+
+#. js-lingui-id: 7x+p95
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-opportunity-standard-flat-field-metadata.util.ts
+msgid "Deal stage in the IDDA lead pipeline"
 msgstr ""
 
 #. js-lingui-id: pqRl9s
 #: src/engine/metadata-modules/page-layout-widget/constants/standard-page-layout-widget-titles.ts
 msgid "Deal value created this month"
+msgstr ""
+
+#. js-lingui-id: ZlGycp
+#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
+msgid "Deals"
 msgstr ""
 
 #. js-lingui-id: gb/ZlH
@@ -1930,6 +1951,11 @@ msgstr ""
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-blocklist-standard-flat-field-metadata.util.ts
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-attachment-standard-flat-field-metadata.util.ts
 msgid "Deleted at"
+msgstr ""
+
+#. js-lingui-id: 5HYWB0
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-person-standard-flat-field-metadata.util.ts
+msgid "Department"
 msgstr ""
 
 #. js-lingui-id: Nu4oKW
@@ -2095,6 +2121,11 @@ msgstr ""
 msgid "Emails"
 msgstr ""
 
+#. js-lingui-id: j2G7pt
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-person-standard-flat-field-metadata.util.ts
+msgid "Employee ID"
+msgstr ""
+
 #. js-lingui-id: gqv5ZL
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-company-standard-flat-field-metadata.util.ts
 msgid "Employees"
@@ -2119,6 +2150,11 @@ msgstr ""
 #. js-lingui-id: BmtSAK
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-command-menu-item-validator.service.ts
 msgid "engineComponentKey is required"
+msgstr ""
+
+#. js-lingui-id: SUXBxp
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-person-standard-flat-field-metadata.util.ts
+msgid "Engineering"
 msgstr ""
 
 #. js-lingui-id: ZzZwe/
@@ -2707,6 +2743,21 @@ msgstr ""
 msgid "Folder path must not contain a file extension — use deleteFile for file paths"
 msgstr ""
 
+#. js-lingui-id: x4MYzY
+#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
+msgid "Follow Up"
+msgstr ""
+
+#. js-lingui-id: BIkeSO
+#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
+msgid "Follow Ups"
+msgstr ""
+
+#. js-lingui-id: TZFiT0
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-opportunity-standard-flat-field-metadata.util.ts
+msgid "Follow-Up Pending"
+msgstr ""
+
 #. js-lingui-id: eWmJYU
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-field-metadata-validator.service.ts
 msgid "Forbidden updated properties for relation field metadata"
@@ -2991,6 +3042,11 @@ msgstr ""
 msgid "In progress"
 msgstr ""
 
+#. js-lingui-id: NoNwIX
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-person-standard-flat-field-metadata.util.ts
+msgid "Inactive"
+msgstr ""
+
 #. js-lingui-id: RAMaAx
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-message-channel-message-association-standard-flat-field-metadata.util.ts
 msgid "Incoming"
@@ -3061,6 +3117,11 @@ msgstr ""
 #. js-lingui-id: J1UlII
 #: src/engine/core-modules/auth/auth.exception.ts
 msgid "Insufficient permissions."
+msgstr ""
+
+#. js-lingui-id: FO98bZ
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-opportunity-standard-flat-field-metadata.util.ts
+msgid "Interested"
 msgstr ""
 
 #. js-lingui-id: pSjWxS
@@ -4192,6 +4253,11 @@ msgstr ""
 msgid "March"
 msgstr ""
 
+#. js-lingui-id: +i7Jib
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-person-standard-flat-field-metadata.util.ts
+msgid "Marketing Communication"
+msgstr ""
+
 #. js-lingui-id: Dq8Em0
 #: src/engine/twenty-orm/field-operations/files-field-sync/files-field-sync.ts
 msgid "Max number of files is {filesFieldMaxNumberOfValues}"
@@ -4223,9 +4289,9 @@ msgstr ""
 msgid "Meet Link"
 msgstr ""
 
-#. js-lingui-id: oE8Gmu
+#. js-lingui-id: kfEn+4
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-opportunity-standard-flat-field-metadata.util.ts
-msgid "Meeting"
+msgid "Meeting Scheduled"
 msgstr ""
 
 #. js-lingui-id: xDAtGP
@@ -4598,14 +4664,14 @@ msgstr ""
 msgid "Needs Action"
 msgstr ""
 
-#. js-lingui-id: isRobC
-#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-opportunity-standard-flat-field-metadata.util.ts
-msgid "New"
-msgstr ""
-
 #. js-lingui-id: TYhxR+
 #: src/engine/core-modules/user/services/user.service.ts
 msgid "New email must be different from current email"
+msgstr ""
+
+#. js-lingui-id: erNgjI
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-opportunity-standard-flat-field-metadata.util.ts
+msgid "New Lead"
 msgstr ""
 
 #. js-lingui-id: 1UzENP
@@ -4981,6 +5047,11 @@ msgstr ""
 msgid "On delete action is only supported for many to one relations"
 msgstr ""
 
+#. js-lingui-id: 4OaTD4
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-person-standard-flat-field-metadata.util.ts
+msgid "On Leave"
+msgstr ""
+
 #. js-lingui-id: DWJeR1
 #: src/engine/metadata-modules/index-metadata/services/index-metadata.service.ts
 msgid "One of the selected fields does not belong to this object."
@@ -5018,7 +5089,6 @@ msgid "Operand \"{operand}\" is not supported on field type \"{effectiveFieldTyp
 msgstr ""
 
 #. js-lingui-id: 4MyDFl
-#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-person-standard-flat-field-metadata.util.ts
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-company-standard-flat-field-metadata.util.ts
 #: src/engine/metadata-modules/page-layout-widget/constants/standard-page-layout-widget-titles.ts
@@ -5038,11 +5108,6 @@ msgstr ""
 #. js-lingui-id: zvf8hK
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-workspace-member-standard-flat-field-metadata.util.ts
 msgid "Opportunities owned by the workspace member"
-msgstr ""
-
-#. js-lingui-id: SV/iis
-#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
-msgid "Opportunity"
 msgstr ""
 
 #. js-lingui-id: WnMlKn
@@ -5073,11 +5138,6 @@ msgstr ""
 #. js-lingui-id: Q1dzBp
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-opportunity-standard-flat-field-metadata.util.ts
 msgid "Opportunity record position"
-msgstr ""
-
-#. js-lingui-id: 5ugYS3
-#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-opportunity-standard-flat-field-metadata.util.ts
-msgid "Opportunity stage"
 msgstr ""
 
 #. js-lingui-id: 2mFkfl
@@ -5334,7 +5394,6 @@ msgid "Payload must contain either a path or an object metadata item identifier"
 msgstr ""
 
 #. js-lingui-id: 1wdjme
-#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-company-standard-flat-field-metadata.util.ts
 #: src/engine/metadata-modules/page-layout-widget/constants/standard-page-layout-widget-titles.ts
 msgid "People"
@@ -5450,7 +5509,6 @@ msgid "Permission not found."
 msgstr ""
 
 #. js-lingui-id: OZdaTZ
-#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-message-participant-standard-flat-field-metadata.util.ts
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-message-participant-standard-flat-field-metadata.util.ts
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-calendar-event-participant-standard-flat-field-metadata.util.ts
@@ -5629,11 +5687,6 @@ msgstr ""
 msgid "Property {property} is required for role"
 msgstr ""
 
-#. js-lingui-id: qcybNQ
-#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-opportunity-standard-flat-field-metadata.util.ts
-msgid "Proposal"
-msgstr ""
-
 #. js-lingui-id: dtGxRz
 #: src/engine/core-modules/record-transformer/utils/transform-phones-value.util.ts
 msgid "Provided and inferred calling code are conflicting"
@@ -5803,9 +5856,24 @@ msgstr ""
 msgid "Remove this permission from all roles before deleting it"
 msgstr ""
 
+#. js-lingui-id: rv5I3C
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-person-standard-flat-field-metadata.util.ts
+msgid "Reports To"
+msgstr ""
+
 #. js-lingui-id: pCsIQQ
 #: src/engine/core-modules/email-verification/email-verification-exception-filter.util.ts
 msgid "Request has expired, please try again."
+msgstr ""
+
+#. js-lingui-id: bdztP2
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-person-standard-flat-field-metadata.util.ts
+msgid "Research"
+msgstr ""
+
+#. js-lingui-id: QG0Ah1
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-opportunity-standard-flat-field-metadata.util.ts
+msgid "Research Completed"
 msgstr ""
 
 #. js-lingui-id: uAJ5BF
@@ -5870,6 +5938,7 @@ msgid "Revenue Timeline"
 msgstr ""
 
 #. js-lingui-id: GDvlUT
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-person-standard-flat-field-metadata.util.ts
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-message-participant-standard-flat-field-metadata.util.ts
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-message-participant-standard-flat-field-metadata.util.ts
 msgid "Role"
@@ -6106,14 +6175,14 @@ msgstr ""
 msgid "Runs"
 msgstr ""
 
+#. js-lingui-id: mUv9U4
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-person-standard-flat-field-metadata.util.ts
+msgid "Sales"
+msgstr ""
+
 #. js-lingui-id: +5kO8P
 #: src/engine/api/graphql/graphql-query-runner/group-by/resolvers/utils/format-result-with-group-by-dimension-values.util.ts
 msgid "Saturday"
-msgstr ""
-
-#. js-lingui-id: cOh+MI
-#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-opportunity-standard-flat-field-metadata.util.ts
-msgid "Screening"
 msgstr ""
 
 #. js-lingui-id: eKi1df
@@ -6304,6 +6373,7 @@ msgstr ""
 
 #. js-lingui-id: uAQUqI
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-task-standard-flat-field-metadata.util.ts
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-person-standard-flat-field-metadata.util.ts
 msgid "Status"
 msgstr ""
 
@@ -6499,7 +6569,6 @@ msgid "targetRecordId and targetObjectMetadataId are required for RECORD type"
 msgstr ""
 
 #. js-lingui-id: Q3P/4s
-#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-task-target-standard-flat-field-metadata.util.ts
 #: src/engine/metadata-modules/page-layout-widget/constants/standard-page-layout-widget-titles.ts
 msgid "Task"
@@ -6556,7 +6625,6 @@ msgid "Task title"
 msgstr ""
 
 #. js-lingui-id: GtycJ/
-#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-person-standard-flat-field-metadata.util.ts
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-opportunity-standard-flat-field-metadata.util.ts
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-company-standard-flat-field-metadata.util.ts
@@ -6600,6 +6668,16 @@ msgstr ""
 #. js-lingui-id: pciKLT
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-task-target-standard-flat-field-metadata.util.ts
 msgid "TaskTarget task"
+msgstr ""
+
+#. js-lingui-id: KM6m8p
+#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
+msgid "Team"
+msgstr ""
+
+#. js-lingui-id: IJFhQ+
+#: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
+msgid "Team Member"
 msgstr ""
 
 #. js-lingui-id: 2kFzQB
@@ -8059,6 +8137,11 @@ msgstr ""
 #: src/engine/metadata-modules/flat-page-layout-widget/services/flat-page-layout-widget-type-validator.service.ts
 #: src/engine/metadata-modules/flat-page-layout-widget/services/flat-page-layout-widget-type-validator.service.ts
 msgid "Widget type VIEW is not supported yet."
+msgstr ""
+
+#. js-lingui-id: 9kZh4H
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-opportunity-standard-flat-field-metadata.util.ts
+msgid "Won"
 msgstr ""
 
 #. js-lingui-id: qRILxq

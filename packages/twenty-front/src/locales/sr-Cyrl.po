@@ -2273,9 +2273,21 @@ msgstr ""
 msgid "Archived"
 msgstr ""
 
+#. js-lingui-id: Q4q3Ag
+#. placeholder {0}: objectMetadataItem.labelPlural
+#: src/modules/command-menu-item/engine-command/record/components/DeleteRecordsCommand.tsx
+msgid "Are you sure you want to delete {numberOfSelected} {0}? This action cannot be undone."
+msgstr ""
+
 #. js-lingui-id: mk25CW
 #: src/pages/settings/workspace/SettingsWorkspaceEmailGroupChannelDetail.tsx
 msgid "Are you sure you want to delete {sourceHandle}? Forwarded emails will no longer arrive in this workspace."
+msgstr ""
+
+#. js-lingui-id: xiMAbE
+#. placeholder {0}: objectMetadataItem.labelSingular
+#: src/modules/command-menu-item/engine-command/record/components/DeleteRecordsCommand.tsx
+msgid "Are you sure you want to delete this {0}? This action cannot be undone."
 msgstr ""
 
 #. js-lingui-id: 4CHeVx
@@ -5159,6 +5171,11 @@ msgstr "Обриши"
 msgid "Delete {fieldLabel} field?"
 msgstr "Обриши поље {fieldLabel}?"
 
+#. js-lingui-id: 2nRIIp
+#: src/modules/command-menu-item/engine-command/record/components/DeleteRecordsCommand.tsx
+msgid "Delete {objectLabel}"
+msgstr ""
+
 #. js-lingui-id: j/OgnL
 #: src/modules/settings/data-model/object-details/components/tabs/ObjectSettings.tsx
 msgid "Delete {objectLabel} object?"
@@ -5254,6 +5271,11 @@ msgstr "Обришите или пренесите ову регистрациј
 #: src/modules/settings/roles/role-permissions/objects-permissions/components/SettingsRolePermissionsObjectsSection.tsx
 msgid "Delete Records on All Objects"
 msgstr "Обриши записе на свим објектима"
+
+#. js-lingui-id: NLLung
+#: src/modules/command-menu-item/engine-command/record/components/DeleteRecordsCommand.tsx
+msgid "Delete records?"
+msgstr ""
 
 #. js-lingui-id: HdeFi+
 #: src/modules/object-record/record-field-list/record-detail-section/relation/components/RecordDetailRelationRecordsListItem.tsx
