@@ -1,142 +1,187 @@
+<div align="center">
+
 # IDDA Assurance CRM
 
-A customized lead and task management system built on top of [Twenty CRM](https://twenty.com) for IDDA Assurance's B2B outreach to dental and dermatology clinics.
+### Full-Stack CRM for Insurance Sales Operations
+
+*A self-hosted CRM built on Twenty for IDDA Assurance's B2B outreach to dental and dermatology clinics — with lead pipeline management, automated follow-ups, task scheduling, lead scoring, and AI-ready enrichment infrastructure.*
 
 ---
 
-## Overview
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev)
+[![NestJS](https://img.shields.io/badge/NestJS-Backend-E0234E?style=flat-square&logo=nestjs&logoColor=white)](https://nestjs.com)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org)
+[![Redis](https://img.shields.io/badge/Redis-7-DC382D?style=flat-square&logo=redis&logoColor=white)](https://redis.io)
 
-IDDA Assurance operates a subscription model targeting doctors and clinics in the dental and dermatology space. This CRM centralizes lead tracking, team assignment, follow-up scheduling, task automation, and AI-assisted insights — all within a single workspace.
-
-It is built as a **Twenty Apps SDK plugin** (`packages/twenty-apps/internal/idda-crm/`) that installs into a self-hosted Twenty workspace without modifying Twenty's core.
+</div>
 
 ---
 
-## Tech Stack
+## What It Does
 
-| Layer | Technology |
-|---|---|
-| CRM Platform | [Twenty CRM](https://twenty.com) (self-hosted) |
-| Backend | NestJS, TypeORM, PostgreSQL, Redis |
-| Frontend | React 18, TypeScript, Jotai, Vite |
-| Job Queue | BullMQ |
-| Monorepo | Nx + Yarn 4 |
-| Plugin System | Twenty Apps SDK (`twenty-sdk/define`) |
+IDDA Assurance targets doctors and clinics in the dental and dermatology space through direct B2B outreach. This CRM centralises every stage of that process — from lead sourcing to onboarding — in a single self-hosted workspace.
+
+Built as a plugin on top of [Twenty CRM](https://twenty.com), it gives the sales team:
+
+1. A structured lead pipeline across 8 stages from first contact to onboarding
+2. Automated task creation triggered by stage transitions
+3. Daily follow-up reminders at 08:00 IST for overdue leads
+4. A scoring engine that classifies every lead as Hot, Warm, Cold, or Dormant
+5. Full activity timeline per lead — calls, WhatsApp, emails, with AI summary fields ready for integration
+6. Role-based views filtered by assignee, priority, and segment
+
+---
+
+## Lead Pipeline
+
+| Stage | Description |
+|-------|-------------|
+| **New Lead** | Just entered the system |
+| **Research Completed** | Background info gathered, contact verified |
+| **Contacted** | First outreach made |
+| **Follow-Up Pending** | Awaiting response, reminder scheduled |
+| **Interested** | Lead has expressed intent |
+| **Meeting Scheduled** | Demo or in-person meeting booked |
+| **Onboarded** | Converted — active subscriber |
+| **Rejected** | Disqualified or declined |
+
+---
+
+## Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                   React 18 Frontend (port 3001)                 │
+│                                                                 │
+│  Lead Pipeline ──► Task Panel ──► Team Views ──► Analytics      │
+│                (Jotai state, Apollo cache, Vite + Linaria)       │
+└───────────────────────────┬─────────────────────────────────────┘
+                            │  GraphQL (Apollo)
+                            ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                  NestJS Backend API (port 3000)                 │
+│                                                                 │
+│  GraphQL Yoga ──► Resolvers ──► TypeORM ──► PostgreSQL          │
+│  BullMQ Worker ──► Job Queue ──► Cron (08:00 IST)              │
+│  Redis ──► Sessions + Cache + Queue backing                     │
+└───────────────────────────┬─────────────────────────────────────┘
+                            │
+                ┌───────────┴───────────┐
+                ▼                       ▼
+     ┌──────────────────┐    ┌──────────────────────┐
+     │  PostgreSQL 16   │    │     Redis 7           │
+     │  (core + meta +  │    │  (sessions, cache,    │
+     │  workspace data) │    │   BullMQ queues)      │
+     └──────────────────┘    └──────────────────────┘
+```
+
+The IDDA CRM plugin (`packages/twenty-apps/internal/idda-crm/`) installs on top of Twenty's core without modifying it. All custom objects, views, logic functions, and automations are isolated inside the plugin.
+
+---
+
+## Plugin Structure
+
+```
+packages/twenty-apps/internal/idda-crm/
+├── objects/             # Lead, LeadActivity, crmTask object definitions
+├── views/               # Pipeline, all-leads, team, and segment views
+├── logic-functions/     # Task automation, lead scoring, follow-up cron
+├── scripts/             # Bulk reassignment, stage updates, data backfills
+├── import/              # CSV, Apollo, Google Maps, Instagram adapters
+├── ai/                  # Enrichment hooks, prompt templates, summarizer stub
+├── analytics/           # KPI calculator and metrics
+└── constants/           # Universal identifiers (UUIDs)
+```
 
 ---
 
 ## Core Features
 
 ### Lead Management
-- Central **Lead** object combining Doctor + Clinic information
-- Full pipeline: `New Lead` → `Research Completed` → `Contacted` → `Follow-Up Pending` → `Interested` → `Meeting Scheduled` → `Onboarded` / `Rejected`
+
+- Unified **Lead** object combining doctor + clinic information
 - Priority levels: Low, Medium, High, Urgent
 - Lead source tracking: Cold Call, Referral, Instagram, and more
 - Specialization segmentation: Dentist, Dermatologist, etc.
 
-### Team & Ownership
-- Leads assigned to workspace members
-- Role-based access: Manager and Employee roles
-- Views filtered by assignee, priority, and stage
-
 ### Task Engine
+
 - `crmTask` object tracks follow-up calls, demos, and check-ins
-- Automated task creation triggered by lead stage transitions
+- Automated task creation on stage transitions
+- Tasks linked to leads with assignee, due date, and type
 
 ### Follow-Up Reminders
-- Daily cron at **08:00 IST** scans leads with overdue `nextFollowUpAt`
-- Automatically creates a `FOLLOW_UP_CALL` task and logs a `FOLLOW_UP_DUE` activity
 
-### Lead Activity Timeline
-- `LeadActivity` object records every interaction
-- Fields: channel (call/email/WhatsApp), direction (inbound/outbound), duration, sentiment, AI summary, attachments
+- Daily cron at **08:00 IST** scans all leads with overdue `nextFollowUpAt`
+- Automatically creates a `FOLLOW_UP_CALL` task and logs a `FOLLOW_UP_DUE` activity
+- No manual intervention needed
 
 ### Lead Scoring Engine
-- Computes a numeric `leadScore` per lead
-- Assigns a `scoreBand` (Hot / Warm / Cold / Dormant)
-- Stores a human-readable `scoreExplanation`
+
+| Band | Meaning |
+|------|---------|
+| **Hot** | High score — priority outreach |
+| **Warm** | Active but not yet committed |
+| **Cold** | Low engagement |
+| **Dormant** | No activity for extended period |
+
+Stores `leadScore` (numeric), `scoreBand`, and a human-readable `scoreExplanation` per lead.
+
+### Activity Timeline
+
+Full interaction history per lead with fields for: channel (call / email / WhatsApp), direction (inbound / outbound), duration, sentiment, AI summary, and attachments.
 
 ### AI Infrastructure
-- Fields on Lead: `aiLeadSummary`, `aiNextAction`, `aiConfidence`, `aiTags`
-- Enrichment hooks and recommendation hooks wired up
-- `lead-summarizer.interface.ts` is the stub for LLM integration
+
+Fields ready on every lead for LLM integration: `aiLeadSummary`, `aiNextAction`, `aiConfidence`, `aiTags`. Enrichment hooks and a summarizer interface stub are wired up — plug in any LLM provider to activate.
 
 ### Import System
-- Adapters for CSV, Apollo, Google Maps, and Instagram
-- Normalizer → Validator → Enricher → Retry Queue pipeline
-- Tracks import metadata: `importBatchId`, `enrichmentSource`, `dataConfidenceScore`, `scrapedAt`
 
-### Analytics & KPIs
-- `kpi-calculator.ts` and `metrics.ts` compute conversion rates, activity volume, stage velocity, and team productivity
-
-### Bulk Operations
-- `scripts/bulk-operations.ts` for mass reassignment, stage updates, and data backfills
+Multi-source ingestion pipeline with adapters for CSV, Apollo, Google Maps, and Instagram. Routes every record through: Normalizer → Validator → Enricher → Retry Queue. Tracks `importBatchId`, `enrichmentSource`, `dataConfidenceScore`, and `scrapedAt`.
 
 ---
 
-## Data Model
+## Tech Stack
 
-### Lead Object (key fields)
+### Frontend
 
-| Field | Type | Description |
-|---|---|---|
-| `doctorName` | FULL_NAME | Primary contact |
-| `clinicName` | TEXT | Practice name |
-| `phones` / `emails` | PHONES / EMAILS | Contact details |
-| `city`, `state` | TEXT | Location |
-| `specialization` | SELECT | Dentist, Dermatologist, etc. |
-| `stage` | SELECT | Pipeline stage |
-| `priority` | SELECT | Low / Medium / High / Urgent |
-| `leadSource` | SELECT | How the lead was sourced |
-| `assignedTo` | RELATION | WorkspaceMember |
-| `lastContactedAt` | DATE_TIME | Last interaction timestamp |
-| `nextFollowUpAt` | DATE_TIME | Scheduled follow-up |
-| `leadScore` | NUMBER | Computed score |
-| `scoreBand` | SELECT | Hot / Warm / Cold / Dormant |
+| Component | Technology | Notes |
+|-----------|-----------|-------|
+| Framework | React 18 | Functional components only |
+| Language | TypeScript 5 | Strict mode, no `any` |
+| State | Jotai | Atoms for global state, atom families for collections |
+| Styling | Linaria | Zero-runtime CSS-in-JS |
+| Data | Apollo Client | GraphQL cache |
+| Build | Vite | HMR configured for ngrok tunneling |
 
----
+### Backend
 
-## Project Structure
-
-```
-packages/
-├── twenty-front/                    # React frontend (Twenty core)
-├── twenty-server/                   # NestJS backend (Twenty core)
-├── twenty-ui/                       # Shared UI components
-├── twenty-shared/                   # Common types and utilities
-└── twenty-apps/
-    └── internal/
-        └── idda-crm/                # IDDA plugin (all customizations live here)
-            ├── objects/             # Lead, LeadActivity, crmTask definitions
-            ├── views/               # Pipeline, all-leads, segment views
-            ├── logic-functions/     # Task automation, lead scoring, follow-up cron
-            ├── scripts/             # Bulk operations, ingest-leads
-            ├── import/              # CSV/Apollo/GoogleMaps/Instagram adapters
-            ├── ai/                  # Enrichment hooks, prompt templates, summarizer stub
-            ├── analytics/           # KPI calculator and metrics
-            └── constants/           # Universal identifiers (UUIDs)
-```
+| Component | Technology | Notes |
+|-----------|-----------|-------|
+| Framework | NestJS | Module-based feature organization |
+| API | GraphQL Yoga | Code-first schema |
+| ORM | TypeORM | PostgreSQL via entities |
+| Queue | BullMQ | Background jobs and cron tasks |
+| Cache | Redis 7 | Sessions, caching, queue backing |
+| Database | PostgreSQL 16 | Multi-tenant schema (core, metadata, workspace) |
 
 ---
 
-## Complete Setup Guide
+## Local Setup
 
-Follow these steps **in order**. Every command is copy-pasteable — no guesswork needed.
+### Prerequisites
 
----
+| Requirement | Version |
+|-------------|---------|
+| Node.js | 24 or higher |
+| Yarn | 4 (via Corepack) |
+| Docker Desktop | Latest — must be running |
 
-### Step 1 — Install Prerequisites
-
-You need **Node.js 24**, **Yarn 4**, and **Docker Desktop** on your machine.
-
-**Install Node.js 24** (using nvm — recommended):
+**Install Node.js 24** (via nvm):
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-```
-```bash
-source ~/.bashrc   # or source ~/.zshrc on Mac
-```
-```bash
+source ~/.bashrc   # or ~/.zshrc on Mac
 nvm install 24 && nvm use 24
 ```
 
@@ -145,174 +190,104 @@ nvm install 24 && nvm use 24
 corepack enable && corepack prepare yarn@stable --activate
 ```
 
-**Verify everything is installed:**
-```bash
-node --version    # should show v24.x.x
-yarn --version    # should show 4.x.x
-docker --version  # should show Docker version x.x.x
-```
-
-Install Docker Desktop if `docker --version` fails: [https://www.docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop)
-
-Then open Docker Desktop and make sure it is **running** before continuing.
+**Windows users:** Use **Git Bash** for all commands below.
 
 ---
 
-### Step 2 — Clone the Repository
+### 1. Clone and install
 
 ```bash
-git clone https://github.com/vaishnav1906/CRM.git
-```
-```bash
-cd CRM
-```
-
----
-
-### Step 3 — Install Dependencies
-
-```bash
+git clone https://github.com/IDDAssurance/idda-tools.git
+cd idda-tools/IDDA-CRM
 yarn install
 ```
 
-This will take a few minutes the first time.
-
 ---
 
-### Step 4 — Start PostgreSQL and Redis via Docker
-
-Make sure Docker Desktop is open and running, then:
+### 2. Start PostgreSQL and Redis
 
 ```bash
 docker compose -f packages/twenty-docker/docker-compose.dev.yml up -d
-```
-
-This starts:
-- **PostgreSQL 16** on port `5432`
-- **Redis 7** on port `6379`
-
-Verify both are healthy:
-```bash
 docker compose -f packages/twenty-docker/docker-compose.dev.yml ps
 ```
 
-Both services should show `healthy` under the Status column. Wait a few seconds and re-run if they show `starting`.
+Wait until both services show `healthy`. Re-run `ps` after a few seconds if they show `starting`.
 
 ---
 
-### Step 5 — Set Up Environment Files
+### 3. Set up environment files
 
 ```bash
 bash packages/twenty-utils/setup-dev-env.sh --docker
 ```
 
-This copies `.env.example → .env` for both the frontend and backend. Safe to re-run any time.
+Copies `.env.example → .env` for both frontend and backend. Safe to re-run.
 
 ---
 
-### Step 6 — Initialize the Database
+### 4. Initialize the database
 
 ```bash
 npx nx run twenty-server:database:init:prod
 ```
 
-This runs all migrations and seeds the initial workspace data.
+Runs all migrations and seeds the initial workspace.
 
 ---
 
-### Step 7 — Start the Application
+### 5. Start the application
 
 ```bash
 yarn start
 ```
 
-This starts all three services:
-- **Frontend** → [http://localhost:3001](http://localhost:3001)
-- **Backend API** → [http://localhost:3000](http://localhost:3000)
-- **Background worker** → handles jobs, automations, and cron tasks
+Starts all three services:
 
-Wait until all three services print their ready messages, then open [http://localhost:3001](http://localhost:3001) in your browser.
+| Service | URL |
+|---------|-----|
+| Frontend | `http://localhost:3001` |
+| Backend API | `http://localhost:3000` |
+| Background worker | (background process) |
 
----
-
-### Step 8 — Log In
-
-1. Open [http://localhost:3001](http://localhost:3001)
-2. Click **"Continue with Email"**
-3. The email and password fields are pre-filled — just click **Sign In**
+Wait until all three print their ready messages, then open `http://localhost:3001`.
 
 ---
 
-### Step 9 — Get Your API Key
+### 6. Log in
 
-1. In the top-left, click your workspace name → **Settings**
-2. Go to **APIs & Webhooks**
-3. Click **Generate API Key**, give it a name (e.g. `idda-plugin`), and copy the key
+1. Open `http://localhost:3001`
+2. Click **Continue with Email**
+3. The credentials are pre-filled — click **Sign In**
 
 ---
 
-### Step 10 — Deploy the IDDA CRM Plugin
-
-Open a **new terminal tab** (keep `yarn start` running in the first one), then:
+### Next time (already set up)
 
 ```bash
-cd packages/twenty-apps/internal/idda-crm
-```
-```bash
-cp .env.example .env.local
-```
-
-Open `.env.local` in any text editor and paste your API key on the last line:
-```
-TWENTY_API_URL=http://localhost:2020
-TWENTY_API_KEY=your_api_key_here
-```
-
-Then install and deploy:
-```bash
-yarn install
-```
-```bash
-yarn twenty sync
+docker compose -f packages/twenty-docker/docker-compose.dev.yml up -d
+yarn start
 ```
 
 ---
 
-### Done!
+## Exposing via ngrok
 
-Refresh [http://localhost:3001](http://localhost:3001) in your browser.
+Use ngrok to access the CRM from another device, share with a teammate, or receive webhooks.
 
-You will now see the full IDDA CRM with:
-- **Leads** pipeline and all-leads table
-- **Task management** panel
-- **Team views** filtered by assignee and priority
-- **Lead scoring** and segment views
-- **Follow-up reminders** running on schedule
-
----
-
-## Exposing the CRM Over the Internet with ngrok
-
-By default the CRM only runs on `localhost`. If you want to access it from another device, share it with a teammate, or receive webhooks from external services, use **ngrok** to create a public HTTPS tunnel.
-
----
-
-### Step 1 — Install ngrok
+### 1. Install ngrok
 
 **Mac:**
 ```bash
 brew install ngrok/ngrok/ngrok
 ```
 
-**Windows / Linux:** Download the binary from [https://ngrok.com/download](https://ngrok.com/download) and add it to your PATH.
+**Windows / Linux:** Download from [ngrok.com/download](https://ngrok.com/download) and add to PATH.
 
 ---
 
-### Step 2 — Create a free ngrok account and add your auth token
+### 2. Add your authtoken
 
-1. Sign up at [https://dashboard.ngrok.com/signup](https://dashboard.ngrok.com/signup)
-2. After logging in, go to **Your Authtoken** in the dashboard and copy it
-3. Run:
+Get your token from [dashboard.ngrok.com](https://dashboard.ngrok.com), then:
 
 ```bash
 ngrok config add-authtoken YOUR_AUTHTOKEN_HERE
@@ -320,15 +295,10 @@ ngrok config add-authtoken YOUR_AUTHTOKEN_HERE
 
 ---
 
-### Step 3 — Start tunnels for both frontend and backend
+### 3. Create the ngrok config
 
-ngrok needs to tunnel two ports: **3001** (frontend) and **3000** (backend). The easiest way is to use an ngrok config file.
-
-Create the config file:
 ```bash
 mkdir -p ~/.config/ngrok
-```
-```bash
 cat > ~/.config/ngrok/ngrok.yml << 'EOF'
 version: "3"
 tunnels:
@@ -341,75 +311,97 @@ tunnels:
 EOF
 ```
 
-Start both tunnels in one command (open a **new terminal tab** for this):
+---
+
+### 4. Start tunnels
+
+Open a new terminal tab (keep `yarn start` running in the other):
+
 ```bash
 ngrok start --all
 ```
 
-You will see output like this:
+You'll see:
 ```
 Forwarding  https://abc123.ngrok-free.app -> http://localhost:3001   (frontend)
 Forwarding  https://xyz789.ngrok-free.app -> http://localhost:3000   (backend)
 ```
 
-Copy both HTTPS URLs — you'll need them in the next step.
-
 ---
 
-### Step 4 — Update the environment files with your ngrok URLs
+### 5. Update environment files
 
-Open `packages/twenty-server/.env` in a text editor and update these two lines (replace with your actual URLs from the previous step):
-
+In `packages/twenty-server/.env`:
 ```
 FRONTEND_URL=https://abc123.ngrok-free.app
 SERVER_URL=https://xyz789.ngrok-free.app
 ```
 
----
-
-### Step 5 — Allow your ngrok domain in the frontend config
-
-Open `packages/twenty-front/vite.config.ts` and add your ngrok frontend domain to the `allowedHosts` array:
-
+In `packages/twenty-front/vite.config.ts`, add your frontend ngrok domain to `allowedHosts`:
 ```ts
 allowedHosts: [
   '*/*',
   'localhost',
   '127.0.0.1',
-  'abc123.ngrok-free.app',   // add your frontend ngrok domain here
+  'abc123.ngrok-free.app',
 ],
 ```
 
----
+Restart `yarn start`. The CRM is now live at your ngrok frontend URL.
 
-### Step 6 — Restart the app
-
-```bash
-yarn start
-```
-
-The CRM is now accessible at your frontend ngrok URL (e.g. `https://abc123.ngrok-free.app`) from any device or browser.
-
-> **Note:** Free ngrok URLs change every time you restart ngrok. If you restart ngrok, repeat Steps 3–6 with the new URLs. To get a stable permanent URL, upgrade to a paid ngrok plan and reserve a static domain.
+> Free ngrok URLs change on every restart. To get a stable URL, upgrade to a paid plan and reserve a static domain.
 
 ---
 
-## Stopping and Restarting
+## Environment Variables
 
-**Stop the app** — press `Ctrl+C` in the terminal running `yarn start`
+### `packages/twenty-server/.env`
 
-**Stop Docker services:**
-```bash
-docker compose -f packages/twenty-docker/docker-compose.dev.yml down
+| Variable | Description |
+|----------|-------------|
+| `FRONTEND_URL` | Frontend origin. `http://localhost:3001` locally; your ngrok/production URL when tunneling. |
+| `SERVER_URL` | Backend origin. `http://localhost:3000` locally; your ngrok/production URL when tunneling. |
+| `PG_DATABASE_URL` | PostgreSQL connection string. Auto-set by `setup-dev-env.sh`. |
+| `REDIS_URL` | Redis connection string. Auto-set by `setup-dev-env.sh`. |
+
+### `packages/twenty-front/.env`
+
+| Variable | Description |
+|----------|-------------|
+| `VITE_SERVER_BASE_URL` | Backend URL the browser connects to. Must match `SERVER_URL`. |
+
+---
+
+## Troubleshooting
+
+**HMR disconnects when using ngrok**
+
+The Vite dev server is configured with `hmr.host: localhost` and `hmr.clientPort: 3001`. If hot reload stops working through the tunnel, verify these settings are present in `packages/twenty-front/vite.config.ts`:
+
+```ts
+hmr: {
+  host: 'localhost',
+  clientPort: 3001,
+},
 ```
 
-**Start again next time** (Steps 4 and 7 only):
+**`403 Disallowed Host` error when accessing via ngrok**
+
+Your ngrok domain is not in the `allowedHosts` array in `vite.config.ts`. Add it and restart `yarn start`.
+
+**Database init fails on first run**
+
+Ensure Docker services are `healthy` before running `database:init:prod`. Run:
 ```bash
-docker compose -f packages/twenty-docker/docker-compose.dev.yml up -d
-yarn start
+docker compose -f packages/twenty-docker/docker-compose.dev.yml ps
 ```
 
-**Wipe everything and start completely fresh:**
+**Worker not processing tasks**
+
+The worker process (third service started by `yarn start`) requires Redis. Check that Redis is healthy in Docker and that `REDIS_URL` is set in `packages/twenty-server/.env`.
+
+**Fresh start — wipe everything**
+
 ```bash
 docker compose -f packages/twenty-docker/docker-compose.dev.yml down -v
 bash packages/twenty-utils/setup-dev-env.sh --docker
@@ -419,14 +411,42 @@ yarn start
 
 ---
 
+## Data Model — Lead Object
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `doctorName` | FULL_NAME | Primary contact |
+| `clinicName` | TEXT | Practice name |
+| `phones` / `emails` | PHONES / EMAILS | Contact details |
+| `city`, `state` | TEXT | Location |
+| `specialization` | SELECT | Dentist, Dermatologist, etc. |
+| `stage` | SELECT | Pipeline stage |
+| `priority` | SELECT | Low / Medium / High / Urgent |
+| `leadSource` | SELECT | Cold Call, Referral, Instagram, etc. |
+| `assignedTo` | RELATION | WorkspaceMember |
+| `lastContactedAt` | DATE_TIME | Last interaction |
+| `nextFollowUpAt` | DATE_TIME | Scheduled follow-up |
+| `leadScore` | NUMBER | Computed score |
+| `scoreBand` | SELECT | Hot / Warm / Cold / Dormant |
+| `aiLeadSummary` | TEXT | LLM-generated summary (stub ready) |
+| `aiNextAction` | TEXT | Recommended next step |
+| `aiConfidence` | NUMBER | AI confidence score |
+| `aiTags` | TEXT | AI-generated tags |
+
+---
+
 ## Roadmap
 
 - [ ] Duplicate detection on lead creation (phone / email / clinic+city matching)
 - [ ] LLM-backed AI summarizer (stub ready in `lead-summarizer.interface.ts`)
 - [ ] WhatsApp / SMS outbound automation
+- [ ] Direct sync from MedLeads → IDDA CRM (push enriched leads straight into pipeline)
+- [ ] Analytics dashboard — conversion rates, stage velocity, team productivity
 
 ---
 
-## License
+<div align="center">
 
-Private — IDDA Assurance internal tooling.
+Part of the **IDDA Tools** internal tooling ecosystem
+
+</div>
