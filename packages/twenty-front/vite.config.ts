@@ -62,6 +62,10 @@ export default defineConfig(({ mode }) => {
         : {
             protocol: 'http',
           }),
+      hmr: {
+        host: 'localhost',
+        clientPort: 3001,
+      },
       allowedHosts: [
         '*/*',
         'localhost',
